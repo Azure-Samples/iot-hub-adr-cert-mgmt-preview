@@ -208,9 +208,9 @@ if (Prompt-Step) {
 # 8) Create ADR Namespace & Inspect Defaults
 # ---------------------------
 $step++; Show-Step -Index $step -Total $totalSteps -Now "Create ADR Namespace & inspect defaults" -Next "Assign custom ADR role to UAMI (namespace scope)"
-Show-Command "az iot adr ns create --name '$NamespaceName' --enable-credential-policy --resource-group '$ResourceGroup' --location '$Location' --only-show-errors"
+Show-Command "az iot adr ns create --name '$NamespaceName' --enable-certificate-management true --resource-group '$ResourceGroup' --location '$Location' --only-show-errors"
 if (Prompt-Step) {
-    az iot adr ns create --name "$NamespaceName" --enable-credential-policy --resource-group "$ResourceGroup" --location "$Location" --policy-name "$PolicyName" --only-show-errors
+    az iot adr ns create --name "$NamespaceName" --enable-certificate-management true --resource-group "$ResourceGroup" --location "$Location" --policy-name "$PolicyName" --only-show-errors
     Stop-OnError "Create ADR Namespace"
     $NamespaceResourceId = az iot adr ns show --name "$NamespaceName" --resource-group "$ResourceGroup" --query id -o tsv --only-show-errors
     Stop-OnError "Get ADR Namespace resource ID"
@@ -363,7 +363,7 @@ if (Prompt-Step) {
 Write-Host ''
 Write-Host 'Congratulations! You have completed all the guided steps. Here is a summary of what you created:' -ForegroundColor Green
 Write-Host ''
-Write-Host '1. Azure Device Registry (ADR) Namespace with a Credential (Root CA) enabled and one policy (Intermediate CA) created' -ForegroundColor Green
+Write-Host '1. Azure Device Registry (ADR) Namespace with a Credential (Root CA) enabled and one policy (Issuing CA) created' -ForegroundColor Green
 Write-Host '2. Device Provisioning Service linked to your ADR Namespace' -ForegroundColor Green
 Write-Host '3. IoT Hub Gen 2 that linked to your ADR Namespace and Device Provisioning Service and is synced with your policy' -ForegroundColor Green
 Write-Host '4. DPS Enrollment Group using a Symmetric Key Onboarding Credential' -ForegroundColor Green
